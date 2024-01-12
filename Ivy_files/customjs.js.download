@@ -1,0 +1,166 @@
+// function for mobile menu
+$(document).ready(function() {
+    var navbarToggler = $('.navbar-toggler');
+    var offcanvasMenu = $('.offcanvas');
+
+    navbarToggler.on('click', function() {
+        offcanvasMenu.toggleClass('open');
+    });
+});
+// mobile menu function ended
+
+
+
+
+// Testimonial Slider
+const swiper = new Swiper('.swiper-container', {
+    // Default parameters
+    loop: true,                         
+    slidesPerView: 1,
+    centeredSlides : true,
+    spaceBetween: 30,     
+    pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+    },
+    // Responsive breakpoints
+   
+  })
+// Ended
+
+
+
+// image Slider
+const swiperimage = new Swiper('.swiper-image-container', {
+    centeredSlides: true,
+    slidesPerView: 1,
+    spaceBetween: 40,
+    loop: true,
+    loopedSlides: 6,
+    loopAdditionalSlides: 1,
+    loopFillGroupWithBlank: true,
+    // autoplay: {
+    //     delay: 2500,
+    // },
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+        clickable: true,
+      }
+  })
+// Ended
+
+
+
+
+
+
+
+// Initialize YouTube API
+var players = {};
+function onYouTubeIframeAPIReady() {
+    // Your existing code
+}
+
+$(document).ready(function () {
+    // Event listener for custom popup open
+    $('.video-trigger').on('click', function () {
+        // Get the target video and video ID
+        var videoTrigger = $(this);
+        var videoId = videoTrigger.data('video-id');
+
+        // Create a unique ID for the video player container
+        var playerId = 'videoPlayer';
+
+        // Set the YouTube iframe source with autoplay, controls, and start parameter
+        var videoSource = `https://www.youtube.com/embed/${videoId}?autoplay=1&controls=1&start=0`;
+
+        // Destroy existing player instance if it exists
+        if (players[playerId]) {
+            players[playerId].destroy();
+        }
+
+        // Create a new YT.Player instance
+        players[playerId] = new YT.Player(playerId, {
+            height: '450',
+            width: '100%',
+            videoId: videoId,
+            playerVars: {
+                'autoplay': 1,
+                'controls': 1,
+            },
+            events: {
+                'onReady': function (event) {
+                    // Uncomment the line below if you want the video to start playing when the player is ready
+                    // event.target.playVideo();
+                },
+            },
+        });
+
+        // Show the popup
+        $('#videoPopup').fadeIn(300);
+
+        // Prevent scrolling when the popup is open
+        $('body').css('overflow', 'hidden');
+    });
+
+    // Event listener for custom popup close
+    $('.closeBtn').on('click', closePopup);
+
+    function closePopup() {
+        // Reset the YouTube iframe source and destroy the player when the popup is closed
+        $('#videoPlayer').html('');
+        var playerId = 'videoPlayer';
+        if (players[playerId]) {
+            players[playerId].destroy();
+            delete players[playerId];
+        }
+
+        // Hide the popup
+        $('#videoPopup').fadeOut(300);
+
+        // Allow scrolling when the popup is closed
+        $('body').css('overflow', 'auto');
+    }
+
+    // Event listener for clicking outside of the popup
+    $(document).on('mouseup', function (e) {
+        var popupContent = $('.popup-content');
+        if (!popupContent.is(e.target) && popupContent.has(e.target).length === 0) {
+            closePopup();
+        }
+    });
+});
+
+
+
+$(document).ready(function() {
+  // Wait for the document to be fully loaded
+
+  // Select all heading elements (h1 to h6)
+  var allHeadings = $('h1, h2, h3, h4, h5, h6');
+
+  // Check if the heading is in the viewport
+  function isScrolledIntoView(element) {
+    var elementTop = element.offset().top;
+    var elementBottom = elementTop + element.outerHeight();
+    var viewportTop = $(window).scrollTop();
+    var viewportBottom = viewportTop + $(window).height();
+    return elementBottom > viewportTop && elementTop < viewportBottom;
+  }
+
+  // Function to reveal the heading with a fade-in effect
+  function revealHeading() {
+    allHeadings.each(function() {
+      if (isScrolledIntoView($(this)) && !$(this).hasClass('animated')) {
+        $(this).addClass('animated').css('opacity', 0).animate({ opacity: 1 }, 1000);
+      }
+    });
+  }
+
+  // Attach the scroll event listener to trigger the reveal
+  $(window).on('scroll', revealHeading);
+
+  // Trigger the reveal once on page load (in case headings are already in view)
+  revealHeading();
+});

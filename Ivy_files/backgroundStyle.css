@@ -1,0 +1,24 @@
+.hero-section {
+    position: relative;
+    background-image: url("../Ivy_files/images/engeheira.png");    
+    background-size: cover;
+    background-position: center;
+    color: white;
+    overflow: hidden;
+    height: 95vh;
+    display: flex;
+    align-items: center;
+}
+.hero-section.banner-with-text-section {
+    position: relative;
+    background-image: url("../Ivy_files/images/CEO.png");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    color: white;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
